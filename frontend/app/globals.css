@@ -1,0 +1,149 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+
+  --color-accent-50: #fff7ed;
+  --color-accent-100: #ffedd5;
+  --color-accent-200: #fed7aa;
+  --color-accent-300: #fdba74;
+  --color-accent-400: #fb923c;
+  --color-accent-500: #f97316;
+  --color-accent-600: #ea580c;
+  --color-accent-700: #c2410c;
+
+  --font-sans: "Be Vietnam Pro", "Noto Sans", system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+  --font-display: "Be Vietnam Pro", "Noto Sans", system-ui, sans-serif;
+
+  --radius-card: 16px;
+  --radius-button: 12px;
+
+  --shadow-soft: 0 8px 28px -6px rgba(30, 58, 138, 0.18);
+  --shadow-pop: 0 18px 50px -12px rgba(30, 58, 138, 0.28);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-primary-50);
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+  }
+  *:focus-visible {
+    outline: 2px solid var(--color-primary-500);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Aurora UI mesh gradient backdrop */
+  .aurora-bg {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .aurora-bg::before,
+  .aurora-bg::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+    filter: blur(80px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+  .aurora-bg::before {
+    background:
+      radial-gradient(40% 50% at 20% 30%, #93c5fd 0%, transparent 70%),
+      radial-gradient(30% 40% at 75% 20%, #c7d2fe 0%, transparent 70%),
+      radial-gradient(45% 55% at 60% 85%, #bae6fd 0%, transparent 70%);
+    animation: aurora-shift 14s ease-in-out infinite alternate;
+  }
+  .aurora-bg::after {
+    background:
+      radial-gradient(35% 45% at 80% 70%, #fed7aa 0%, transparent 70%),
+      radial-gradient(25% 35% at 15% 80%, #fde68a 0%, transparent 70%);
+    animation: aurora-shift 18s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes aurora-shift {
+    0% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(2%, -3%, 0) scale(1.05); }
+    100% { transform: translate3d(-3%, 2%, 0) scale(1.02); }
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl
+           bg-primary-900 px-5 py-2.5 text-sm font-semibold text-white
+           shadow-[var(--shadow-soft)] cursor-pointer
+           transition-colors duration-200
+           hover:bg-primary-800 active:bg-primary-900
+           disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl
+           bg-accent-500 px-5 py-2.5 text-sm font-semibold text-white
+           shadow-[var(--shadow-soft)] cursor-pointer
+           transition-colors duration-200
+           hover:bg-accent-600 active:bg-accent-700
+           disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl
+           border border-slate-200 bg-white px-4 py-2 text-sm font-medium
+           text-slate-700 cursor-pointer
+           transition-colors duration-200
+           hover:bg-slate-50 hover:border-slate-300
+           disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl
+           border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium
+           text-red-700 cursor-pointer transition-colors duration-200
+           hover:bg-red-100 hover:border-red-300;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5
+           text-sm text-slate-900 placeholder:text-slate-400
+           transition-colors duration-200
+           focus:border-primary-500 focus:outline-none
+           focus:ring-2 focus:ring-primary-200
+           disabled:cursor-not-allowed disabled:bg-slate-50;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700;
+  }
+  .helper-error {
+    @apply mt-1 text-xs font-medium text-red-600;
+  }
+}

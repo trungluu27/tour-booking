@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backend uploads (runtime images)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Coverage
+coverage/
+*.lcov
+
+# Mongo dump
+*.dump
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Python bytecode cache
+__pycache__/
+*.pyc
