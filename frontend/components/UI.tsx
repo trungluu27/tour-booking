@@ -63,26 +63,44 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   hint?: string;
+  leftIcon?: ReactNode;
+  /** Class names for the actual <input> element (advanced). */
+  inputClassName?: string;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  { label, error, hint, className, id, ...props },
+  { label, error, hint, leftIcon, className, inputClassName, id, ...props },
   ref,
 ) {
   const inputId = id ?? props.name;
   return (
-    <div className="flex flex-col">
+    <div className={cn("flex flex-col", className)}>
       {label && (
         <label htmlFor={inputId} className="label">
           {label}
         </label>
       )}
-      <input
-        ref={ref}
-        id={inputId}
-        className={cn("input", error && "border-red-300 focus:border-red-500 focus:ring-red-200", className)}
-        {...props}
-      />
+      <div className="relative">
+        {leftIcon && (
+          <span
+            className="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-slate-400 [&_svg]:h-4 [&_svg]:w-4"
+            aria-hidden
+          >
+            {leftIcon}
+          </span>
+        )}
+        <input
+          ref={ref}
+          id={inputId}
+          className={cn(
+            "input",
+            leftIcon && "pl-10",
+            error && "border-red-300 focus:border-red-500 focus:ring-red-200",
+            inputClassName,
+          )}
+          {...props}
+        />
+      </div>
       {error ? (
         <p className="helper-error" role="alert">
           {error}
@@ -97,13 +115,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
 export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
+  /** Class names for the actual <textarea> element (advanced). */
+  inputClassName?: string;
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  function Textarea({ label, error, className, id, ...props }, ref) {
+  function Textarea({ label, error, className, inputClassName, id, ...props }, ref) {
     const inputId = id ?? props.name;
     return (
-      <div className="flex flex-col">
+      <div className={cn("flex flex-col", className)}>
         {label && (
           <label htmlFor={inputId} className="label">
             {label}
@@ -112,7 +132,11 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         <textarea
           ref={ref}
           id={inputId}
-          className={cn("input min-h-[96px] resize-y", error && "border-red-300 focus:border-red-500 focus:ring-red-200", className)}
+          className={cn(
+            "input min-h-[96px] resize-y",
+            error && "border-red-300 focus:border-red-500 focus:ring-red-200",
+            inputClassName,
+          )}
           {...props}
         />
         {error && <p className="helper-error">{error}</p>}
@@ -125,32 +149,63 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
   hint?: string;
+  leftIcon?: ReactNode;
+  /** Class names for the actual <select> element (advanced). */
+  inputClassName?: string;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { label, error, hint, className, id, children, ...props },
+  { label, error, hint, leftIcon, className, inputClassName, id, children, ...props },
   ref,
 ) {
   const inputId = id ?? props.name;
   return (
-    <div className="flex flex-col">
+    <div className={cn("flex flex-col", className)}>
       {label && (
         <label htmlFor={inputId} className="label">
           {label}
         </label>
       )}
-      <select
-        ref={ref}
-        id={inputId}
-        className={cn(
-          "input appearance-none bg-white pr-9",
-          error && "border-red-300 focus:border-red-500 focus:ring-red-200",
-          className,
+      <div className="relative">
+        {leftIcon && (
+          <span
+            className="pointer-events-none absolute inset-y-0 left-3.5 flex items-center text-slate-400 [&_svg]:h-4 [&_svg]:w-4"
+            aria-hidden
+          >
+            {leftIcon}
+          </span>
         )}
-        {...props}
-      >
-        {children}
-      </select>
+        <select
+          ref={ref}
+          id={inputId}
+          className={cn(
+            "input appearance-none bg-white pr-9",
+            leftIcon && "pl-10",
+            error && "border-red-300 focus:border-red-500 focus:ring-red-200",
+            inputClassName,
+          )}
+          {...props}
+        >
+          {children}
+        </select>
+        <span
+          className="pointer-events-none absolute inset-y-0 right-3.5 flex items-center text-slate-400"
+          aria-hidden
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="h-4 w-4"
+          >
+            <path
+              fillRule="evenodd"
+              d="M5.23 7.21a.75.75 0 011.06.02L10 11.06l3.71-3.83a.75.75 0 111.08 1.04l-4.24 4.38a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </span>
+      </div>
       {error ? (
         <p className="helper-error">{error}</p>
       ) : hint ? (
