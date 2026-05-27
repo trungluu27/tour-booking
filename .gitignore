@@ -46,3 +46,4 @@ coverage/
 # Python bytecode cache
 __pycache__/
 *.pyc
+.cursor/
